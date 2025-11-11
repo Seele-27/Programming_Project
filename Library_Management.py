@@ -182,7 +182,7 @@ def ShowReviewRecords():
     for record in records:
         print(record)
 
-# Unified menu
+
 def DisplayMenu():
     print("\nLibrary Management Menu:")
     print("1. Insert Membership Information")
@@ -198,7 +198,7 @@ def DisplayMenu():
 def main():
     while True:
         DisplayMenu()
-        choice = input("Enter Choice (0–8): ")
+        choice = input("Enter Choice (0-8): ")
         if choice == '1':
             InsertMemberInfo()
         elif choice == '2':
