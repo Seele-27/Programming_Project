@@ -1,11 +1,11 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 from PIL import Image, ImageTk
-import requests
 from datetime import datetime, timedelta
+import requests
 
 # ====================================================
-#   LIBRARY MANAGEMENT SYSTEM - MERGED VERSION
+#   LIBRARY MANAGEMENT SYSTEM - ENHANCED WITH PLACEHOLDERS
 # ====================================================
 
 class LibraryApp(tk.Tk):
@@ -19,19 +19,13 @@ class LibraryApp(tk.Tk):
         tk.Label(self, text="📘 Library Management Dashboard", font=("Arial", 22, "bold"),
                  bg="#283593", fg="white").pack(fill="x", pady=10)
 
-        # --- Dashboard Section ---
+        # --- Sections ---
         self.create_dashboard_section()
-
-        # --- Book Management Section ---
         self.create_book_management_section()
-
-        # --- Member Management Section ---
         self.create_member_management_section()
-
-        # --- Transaction Management Section (NEW) ---
         self.create_transaction_management_section()
 
-        # Store transaction data in memory
+        # In-memory data
         self.transactions = []
 
     # ====================================================
@@ -51,14 +45,12 @@ class LibraryApp(tk.Tk):
         )
         stats_label.grid(row=0, column=0, sticky="w", padx=10, pady=5)
 
-        # Quick Actions
         quick_actions = tk.Frame(dashboard_frame, bg="#e8eaf6")
         quick_actions.grid(row=0, column=1, padx=20)
         ttk.Button(quick_actions, text="Add Book", command=self.open_add_book_window).grid(row=0, column=0, padx=8)
         ttk.Button(quick_actions, text="Issue Book", command=self.open_issue_book_window).grid(row=0, column=1, padx=8)
         ttk.Button(quick_actions, text="Return Book", command=self.open_return_book_window).grid(row=0, column=2, padx=8)
 
-        # Recent Transactions
         tk.Label(dashboard_frame, text="🕒 Recent Transactions", font=("Arial", 12, "bold"),
                  bg="#e8eaf6").grid(row=1, column=0, sticky="w", pady=10)
         self.transactions_list = tk.Listbox(dashboard_frame, width=50, height=5)
@@ -66,7 +58,6 @@ class LibraryApp(tk.Tk):
         for txn in ["John borrowed '1984'", "Emily returned 'Harry Potter'", "Luke borrowed 'To Kill a Mockingbird'"]:
             self.transactions_list.insert(tk.END, txn)
 
-        # Popular Books
         tk.Label(dashboard_frame, text="⭐ Popular Books", font=("Arial", 12, "bold"),
                  bg="#e8eaf6").grid(row=1, column=1, sticky="w", pady=10)
         self.popular_list = tk.Listbox(dashboard_frame, width=40, height=5)
@@ -107,15 +98,13 @@ class LibraryApp(tk.Tk):
                                   padx=15, pady=10, bg="#fff3e0")
         txn_frame.pack(fill="both", expand=True, padx=20, pady=10)
 
-        # Buttons
         button_frame = tk.Frame(txn_frame, bg="#fff3e0")
         button_frame.pack(fill="x", pady=5)
-        ttk.Button(button_frame, text="Issue Book", command=self.open_issue_book_window).pack(side="left", padx=10, pady=5)
-        ttk.Button(button_frame, text="Return Book", command=self.open_return_book_window).pack(side="left", padx=10, pady=5)
-        ttk.Button(button_frame, text="View All Transactions", command=self.refresh_transaction_table).pack(side="left", padx=10, pady=5)
-        ttk.Button(button_frame, text="Send Due Date Reminders", command=self.send_due_reminders).pack(side="left", padx=10, pady=5)
+        ttk.Button(button_frame, text="Issue Book", command=self.open_issue_book_window).pack(side="left", padx=10)
+        ttk.Button(button_frame, text="Return Book", command=self.open_return_book_window).pack(side="left", padx=10)
+        ttk.Button(button_frame, text="View All Transactions", command=self.refresh_transaction_table).pack(side="left", padx=10)
+        ttk.Button(button_frame, text="Send Due Date Reminders", command=self.send_due_reminders).pack(side="left", padx=10)
 
-        # Table
         columns = ("member", "book", "issue_date", "due_date", "return_date", "fine")
         self.tree = ttk.Treeview(txn_frame, columns=columns, show="headings", height=10)
         for col in columns:
@@ -124,28 +113,124 @@ class LibraryApp(tk.Tk):
         self.tree.pack(fill="both", expand=True, pady=10)
 
     # ====================================================
-    #   POPUPS FOR FEATURES
+    #   POPUP WINDOWS WITH PLACEHOLDERS
     # ====================================================
-    def _open_popup(self, title, text):
-        popup = tk.Toplevel(self)
-        popup.title(title)
-        popup.geometry("400x300")
-        popup.config(bg="white")
-        tk.Label(popup, text=title, font=("Arial", 16, "bold"), bg="white").pack(pady=10)
-        tk.Message(popup, text=text, width=350, font=("Arial", 12), bg="white").pack(padx=20, pady=10)
-        ttk.Button(popup, text="Close", command=popup.destroy).pack(pady=15)
 
-    # --- Dashboard popups ---
-    def open_add_book_window(self): self._open_popup("Add Book", "Add new books via ISBN lookup.")
-    def open_update_book_window(self): self._open_popup("Update Book", "Update book details and availability.")
-    def open_search_books_window(self): self._open_popup("Search Books", "Search books by title, author, or ISBN.")
-    def open_register_member_window(self): self._open_popup("Register Member", "Register new library member.")
-    def open_update_member_window(self): self._open_popup("Update Member", "Update member information.")
+    # --- Add Book ---
+    def open_add_book_window(self):
+        win = tk.Toplevel(self)
+        win.title("📕 Add New Book")
+        win.geometry("400x400")
+        win.config(bg="white")
+
+        tk.Label(win, text="Enter Book Details", font=("Arial", 14, "bold"), bg="white").pack(pady=10)
+        fields = ["ISBN", "Title", "Author", "Genre", "Publisher", "Year"]
+        entries = {}
+        for f in fields:
+            tk.Label(win, text=f + ":", bg="white").pack(anchor="w", padx=20)
+            e = tk.Entry(win, width=35)
+            e.pack(pady=3)
+            entries[f] = e
+
+        def save_book():
+            info = {k: v.get() for k, v in entries.items()}
+            messagebox.showinfo("Saved", f"Book added (placeholder):\n\n{info}")
+            win.destroy()
+
+        ttk.Button(win, text="Save", command=save_book).pack(pady=10)
+
+    # --- Update Book ---
+    def open_update_book_window(self):
+        win = tk.Toplevel(self)
+        win.title("📗 Update Book Details")
+        win.geometry("400x400")
+        win.config(bg="white")
+
+        tk.Label(win, text="Update Book Information", font=("Arial", 14, "bold"), bg="white").pack(pady=10)
+        fields = ["ISBN", "New Title", "New Author", "Availability Status"]
+        entries = {}
+        for f in fields:
+            tk.Label(win, text=f + ":", bg="white").pack(anchor="w", padx=20)
+            e = tk.Entry(win, width=35)
+            e.pack(pady=3)
+            entries[f] = e
+
+        def update_book():
+            info = {k: v.get() for k, v in entries.items()}
+            messagebox.showinfo("Updated", f"Book updated (placeholder):\n\n{info}")
+            win.destroy()
+
+        ttk.Button(win, text="Update", command=update_book).pack(pady=10)
+
+    # --- Search Books ---
+    def open_search_books_window(self):
+        win = tk.Toplevel(self)
+        win.title("🔍 Search Books")
+        win.geometry("400x300")
+        win.config(bg="white")
+
+        tk.Label(win, text="Search for Books", font=("Arial", 14, "bold"), bg="white").pack(pady=10)
+        tk.Label(win, text="Search by (Title / Author / ISBN):", bg="white").pack()
+        query = tk.Entry(win, width=35)
+        query.pack(pady=5)
+
+        def search_book():
+            messagebox.showinfo("Search Result", f"Search results for: '{query.get()}' (placeholder)")
+
+        ttk.Button(win, text="Search", command=search_book).pack(pady=10)
+
+    # --- Register Member ---
+    def open_register_member_window(self):
+        win = tk.Toplevel(self)
+        win.title("👤 Register New Member")
+        win.geometry("400x400")
+        win.config(bg="white")
+
+        tk.Label(win, text="Enter Member Information", font=("Arial", 14, "bold"), bg="white").pack(pady=10)
+        fields = ["Member ID", "Full Name", "Email", "Phone", "Address"]
+        entries = {}
+        for f in fields:
+            tk.Label(win, text=f + ":", bg="white").pack(anchor="w", padx=20)
+            e = tk.Entry(win, width=35)
+            e.pack(pady=3)
+            entries[f] = e
+
+        def register_member():
+            info = {k: v.get() for k, v in entries.items()}
+            messagebox.showinfo("Registered", f"Member registered (placeholder):\n\n{info}")
+            win.destroy()
+
+        ttk.Button(win, text="Save", command=register_member).pack(pady=10)
+
+    # --- Update Member ---
+    def open_update_member_window(self):
+        win = tk.Toplevel(self)
+        win.title("👥 Update Member Information")
+        win.geometry("400x350")
+        win.config(bg="white")
+
+        tk.Label(win, text="Update Member Information", font=("Arial", 14, "bold"), bg="white").pack(pady=10)
+        fields = ["Member ID", "New Email", "New Phone", "New Address"]
+        entries = {}
+        for f in fields:
+            tk.Label(win, text=f + ":", bg="white").pack(anchor="w", padx=20)
+            e = tk.Entry(win, width=35)
+            e.pack(pady=3)
+            entries[f] = e
+
+        def update_member():
+            info = {k: v.get() for k, v in entries.items()}
+            messagebox.showinfo("Updated", f"Member updated (placeholder):\n\n{info}")
+            win.destroy()
+
+        ttk.Button(win, text="Update", command=update_member).pack(pady=10)
+
+    # --- Other Existing Popups ---
     def open_borrow_history_window(self): self._open_popup("Borrow History", "View member borrowing history.")
     def open_email_notify_window(self): self._open_popup("Email Notifications", "Send email reminders to members.")
 
     # ====================================================
-    #   ISSUE / RETURN BOOK WINDOWS
+    #   ISSUE / RETURN BOOK WINDOWS (unchanged)
     # ====================================================
     def open_issue_book_window(self):
         win = tk.Toplevel(self)
@@ -171,14 +256,9 @@ class LibraryApp(tk.Tk):
         due.pack()
 
         def save_issue():
-            data = {
-                "member": member.get(),
-                "book": book.get(),
-                "issue_date": issue.get(),
-                "due_date": due.get(),
-                "return_date": None,
-                "fine": 0
-            }
+            data = {"member": member.get(), "book": book.get(),
+                    "issue_date": issue.get(), "due_date": due.get(),
+                    "return_date": None, "fine": 0}
             self.transactions.append(data)
             self.refresh_transaction_table()
             messagebox.showinfo("Success", "Book issued successfully!")
@@ -211,7 +291,7 @@ class LibraryApp(tk.Tk):
                 if txn["member"] == member.get() and txn["book"] == book.get() and txn["return_date"] is None:
                     due = datetime.strptime(txn["due_date"], "%Y-%m-%d").date()
                     if today > due:
-                        fine = (today - due).days * 1  # $1/day fine
+                        fine = (today - due).days * 1
                     txn["return_date"] = return_date.get()
                     txn["fine"] = fine
                     messagebox.showinfo("Returned", f"Book returned.\nFine: ${fine}")
@@ -237,12 +317,22 @@ class LibraryApp(tk.Tk):
 
     def send_due_reminders(self):
         today = datetime.now().date()
-        overdue = [t for t in self.transactions if not t["return_date"] and datetime.strptime(t["due_date"], "%Y-%m-%d").date() < today]
+        overdue = [t for t in self.transactions if not t["return_date"]
+                   and datetime.strptime(t["due_date"], "%Y-%m-%d").date() < today]
         if not overdue:
             messagebox.showinfo("Reminders", "No overdue books.")
             return
         msg = "\n".join([f"{t['member']} - '{t['book']}' (Due: {t['due_date']})" for t in overdue])
         messagebox.showinfo("Overdue Reminders Sent", f"Reminders sent to:\n\n{msg}")
+
+    def _open_popup(self, title, text):
+        popup = tk.Toplevel(self)
+        popup.title(title)
+        popup.geometry("400x300")
+        popup.config(bg="white")
+        tk.Label(popup, text=title, font=("Arial", 16, "bold"), bg="white").pack(pady=10)
+        tk.Message(popup, text=text, width=350, font=("Arial", 12), bg="white").pack(padx=20, pady=10)
+        ttk.Button(popup, text="Close", command=popup.destroy).pack(pady=15)
 
 
 # ====================================================
